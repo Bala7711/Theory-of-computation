@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_LEN 100
+#define MAX_STATES 10
+
+int current_state;
+char input_string[MAX_LEN];
+int state_table[MAX_STATES][MAX_LEN];
+
+void set_state_table()
+{
+    state_table[0][0] = 1;
+    state_table[0][1] = 2;
+
+    state_table[1][0] = 1;
+    state_table[1][1] = 3;
+
+    state_table[2][1] = 2;
+    state_table[2][0] = 3;
+
+    state_table[3][1] = 3;
+}
+
+int main()
+{
+    int length;
+    int flag = 0;
+
+    set_state_table();
+
+    printf("Enter the input string: ");
+    scanf("%s", input_string);
+
+    length = strlen(input_string);
+
+    current_state = 0;
+    for (int i = 0; i < length; i++) {
+        if (input_string[i] == 'o')
+            current_state = state_table[current_state][0];
+        else if (input_string[i] == '1')
+            current_state = state_table[current_state][1];
+        else {
+            flag = 1;
+            break;
+        }
+    }
+
+    if (current_state == 3 && flag == 0)
+        printf("The string belongs to the language.\n");
+    else
+        printf("The string does not belong to the language.\n");
+
+    return 0;
+}
